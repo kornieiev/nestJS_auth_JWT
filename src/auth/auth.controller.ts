@@ -23,6 +23,9 @@ import {
 } from '@nestjs/swagger';
 import { AuthResponse } from './dto/auth.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { Authorization } from './decorators/authorization.decorators';
+import { Authorized } from './decorators/authorized.decorator';
+import { User } from '@prisma/client';
 
 @Controller('auth')
 export class AuthController {
@@ -98,10 +101,11 @@ export class AuthController {
   }
 
   // ! @me
-  @UseGuards(AuthGuard('jwt')) // https://youtu.be/HT6cm4GoSIw?t=23313
+  // @UseGuards(AuthGuard('jwt')) // https://youtu.be/HT6cm4GoSIw?t=23313
+  @Authorization()
   @Get('@me')
   @HttpCode(HttpStatus.OK)
-  async me(@Req() req: Request) {
-    return req.user;
+  async me(@Authorized('id') id: string) {
+    return { id };
   }
 }
