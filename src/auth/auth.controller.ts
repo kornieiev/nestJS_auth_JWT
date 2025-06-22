@@ -1,11 +1,13 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterRequestDto } from './dto/register.dto';
@@ -20,6 +22,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { AuthResponse } from './dto/auth.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -92,5 +95,13 @@ export class AuthController {
   @HttpCode(HttpStatus.OK) // указывается статус-код который будет при успешном ответе (можно просто число, напр 200 или енам из HttpStatus)
   async logout(@Res({ passthrough: true }) res: Response) {
     return this.authService.logout(res);
+  }
+
+  // ! @me
+  @UseGuards(AuthGuard('jwt')) // https://youtu.be/HT6cm4GoSIw?t=23313
+  @Get('@me')
+  @HttpCode(HttpStatus.OK)
+  async me(@Req() req: Request) {
+    return req.user;
   }
 }

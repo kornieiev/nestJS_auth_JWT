@@ -15,7 +15,6 @@ import type { Request, Response } from 'express';
 import { isDev } from 'src/utils/is-dev.utils';
 @Injectable()
 export class AuthService {
-  // private readonly JWT_SECRET: string;
   private readonly JWT_ACCESS_TOKEN_TTL: string;
   private readonly JWT_REFRESH_TOKEN_TTL: string;
   private readonly COOKIE_DOMAIN: string;
@@ -25,7 +24,6 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {
-    // this.JWT_SECRET = configService.getOrThrow<string>('JWT_SECRET');
     this.JWT_ACCESS_TOKEN_TTL = configService.getOrThrow<string>(
       'JWT_ACCESS_TOKEN_TTL',
     );
