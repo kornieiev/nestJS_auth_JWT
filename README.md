@@ -4,3 +4,5 @@
 
 Для хеширование пароля используется: argon2
 https://youtu.be/HT6cm4GoSIw?t=20273
+
+http://localhost:3030/swagger#/Auth/AuthController_register
